@@ -1,9 +1,9 @@
-## oo_boot_camp_template_java
+## oo_boot_camp_2025-08-25_java
 
 Copyright (c) 2025 by Fred George  
 May be used freely except for training; license required for training.
 
-# OO Boot Camp template for class exercises in Java
+# OO Boot Camp template for class exercises in Java for Swiss client in 2025
 
 Java is relatively easy to set up with IntelliJ IDEA. 
 Gradle is used for building and testing the project, and is a 

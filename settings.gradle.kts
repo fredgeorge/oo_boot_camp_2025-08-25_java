@@ -1,2 +1,2 @@
-rootProject.name = "template_oo_boot_camp_java"
+rootProject.name = "oo_boot_camp_2025-08-25_java"
 include("exercises", "tests")
