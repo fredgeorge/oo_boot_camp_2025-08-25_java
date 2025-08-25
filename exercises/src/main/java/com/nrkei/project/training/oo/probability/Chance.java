@@ -15,6 +15,8 @@ public final class Chance {
     private final double fraction;
 
     public Chance(double likelihoodAsFraction) {
+        assert likelihoodAsFraction >= 0.0;
+        assert likelihoodAsFraction <= CERTAIN_FRACTION;
         this.fraction = likelihoodAsFraction;
     }
 

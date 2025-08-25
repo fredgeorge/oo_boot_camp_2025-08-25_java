@@ -64,4 +64,9 @@ public final class ChanceTest {
         assertEquals(CERTAIN, CERTAIN.or(LIKELY));
     }
 
+    @Test void invalidLikelihood() {
+        assertThrows(AssertionError.class, () -> new Chance(-0.01));
+        assertThrows(AssertionError.class, () -> new Chance(1.01));
+    }
+
 }
