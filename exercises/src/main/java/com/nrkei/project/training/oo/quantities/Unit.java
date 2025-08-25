@@ -27,13 +27,16 @@ public final class Unit {
     public static final Unit MILE = new Unit(8, FURLONG);
     public static final Unit LEAGUE = new Unit(3, MILE);
 
+    private final Unit baseUnit;
     private final double baseUnitRatio;
 
     private Unit() {
+        baseUnit = this;
         baseUnitRatio = 1.0;
     }
 
     private Unit(double relativeRatio, Unit relativeUnit) {
+        baseUnit = relativeUnit.baseUnit;
         baseUnitRatio = relativeRatio * relativeUnit.baseUnitRatio;
     }
 
@@ -46,10 +49,15 @@ public final class Unit {
     }
 
     double convertedAmount(double otherAmount, Unit other) {
+        assert this.isCompatible(other);
         return otherAmount * other.baseUnitRatio / this.baseUnitRatio;
     }
 
     int hashCode(double amount) {
         return Objects.hash(amount * baseUnitRatio);
+    }
+
+    boolean isCompatible(Unit other) {
+        return this.baseUnit == other.baseUnit;
     }
 }
