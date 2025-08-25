@@ -6,6 +6,17 @@
 
 package com.nrkei.project.training.oo.geometry;
 
-// Understands SOMETHING_DUMMY
+// Understands a four-sided polygon with sides at right angles
 public class Rectangle {
+    private final double length;
+    private final double width;
+
+    public Rectangle(double length, double width) {
+        this.length = length;
+        this.width = width;
+    }
+
+    public double area() {
+        return length * width;
+    }
 }

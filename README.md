@@ -14,7 +14,7 @@ Adapt as necessary for your environment.
 
 Note: This implementation was set up to use:
 
-- IntelliJ 2025.1.3 (Ultimate Edition)
+- IntelliJ 2025.2 (Ultimate Edition)
 - Java SDK 21 LTS (Oracle)
 - Gradle 8.14.3
 - JUnit 5.13.3 for testing
