@@ -6,47 +6,35 @@
 
 package com.nrkei.project.training.oo.quantities;
 
-// Understands a specific measurement
-public final class Quantity {
+// Understands a specific measurement along a scale
+public final class IntervalQuantity {
     private final double amount;
     private final Unit unit;
 
-    Quantity(double amount, Unit unit) {
+    IntervalQuantity(double amount, Unit unit) {
         this.amount = amount;
         this.unit = unit;
     }
 
     @Override
     public boolean equals(Object obj) {
-        return this == obj || obj instanceof Quantity && this.equals((Quantity) obj);
+        return this == obj || obj instanceof IntervalQuantity && this.equals((IntervalQuantity) obj);
     }
 
-    private boolean equals(Quantity other) {
+    private boolean equals(IntervalQuantity other) {
         return this.isCompatible(other) && this.amount == convertedAmount(other);
     }
 
-    private boolean isCompatible(Quantity other) {
+    private boolean isCompatible(IntervalQuantity other) {
         return this.unit.isCompatible(other.unit);
     }
 
-    private double convertedAmount(Quantity other) {
+    private double convertedAmount(IntervalQuantity other) {
         return this.unit.convertedAmount(other.amount, other.unit);
     }
 
     @Override
     public int hashCode() {
         return unit.hashCode(amount);
-    }
-
-    public Quantity plus(Quantity other) {
-        return new Quantity(this.amount + convertedAmount(other), unit);
-    }
-
-    public Quantity negate() {
-        return new Quantity(-this.amount, unit);
-    }
-
-    public Quantity minus(Quantity other) {
-        return this.plus(other.negate());
     }
 }
