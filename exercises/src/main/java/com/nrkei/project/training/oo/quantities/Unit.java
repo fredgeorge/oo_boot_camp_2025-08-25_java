@@ -15,4 +15,8 @@ public final class Unit {
     public static final Unit PINT = new Unit();
     public static final Unit QUART = new Unit();
     public static final Unit GALLON = new Unit();
+
+    public Quantity s(double amount) {
+        return new Quantity(amount, this);
+    }
 }
