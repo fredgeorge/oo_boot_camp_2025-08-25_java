@@ -7,9 +7,9 @@
 package com.nrkei.project.training.oo.quantities;
 
 // Understands a specific measurement along a scale
-public final class IntervalQuantity {
-    private final double amount;
-    private final Unit unit;
+public class IntervalQuantity {
+    protected final double amount;
+    protected final Unit unit;
 
     IntervalQuantity(double amount, Unit unit) {
         this.amount = amount;
@@ -29,7 +29,7 @@ public final class IntervalQuantity {
         return this.unit.isCompatible(other.unit);
     }
 
-    private double convertedAmount(IntervalQuantity other) {
+    protected double convertedAmount(IntervalQuantity other) {
         return this.unit.convertedAmount(other.amount, other.unit);
     }
 
