@@ -53,4 +53,18 @@ public final class QuantityTest {
     @Test void mixedUnitArithmetic() {
         assertThrows(AssertionError.class, () -> YARD.s(3).minus(TABLESPOON.s(4)));
     }
+
+    @Test void temperature() {
+        assertTemperatureSymmetry(0, 32);
+        assertTemperatureSymmetry(10, 50);
+        assertTemperatureSymmetry(100, 212);
+        assertTemperatureSymmetry(-40, -40);
+    }
+
+    private void assertTemperatureSymmetry(double celsius, double fahrenheit) {
+        var c = CELSIUS.es(celsius);
+        var f = FAHRENHEIT.s(fahrenheit);
+        assertEquals(c, f);
+        assertEquals(f, c);
+    }
 }
