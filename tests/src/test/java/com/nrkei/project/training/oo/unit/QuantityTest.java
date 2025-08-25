@@ -6,6 +6,7 @@
 
 package com.nrkei.project.training.oo.unit;
 
+import com.nrkei.project.training.oo.quantities.IntervalQuantity;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -36,6 +37,7 @@ public final class QuantityTest {
     @Test void hash() {
         assertEquals(TABLESPOON.s(4).hashCode(), TABLESPOON.s(4).hashCode());
         assertEquals(TABLESPOON.s(4).hashCode(), CUP.s(1/4.0).hashCode());
+        assertEquals(FAHRENHEIT.s(325).hashCode(), GAS_MARK.s(3).hashCode());
     }
 
     @Test void arithmetic() {
@@ -55,10 +57,14 @@ public final class QuantityTest {
     }
 
     @Test void temperature() {
-        assertTemperatureSymmetry(0, 32);
-        assertTemperatureSymmetry(10, 50);
-        assertTemperatureSymmetry(100, 212);
-        assertTemperatureSymmetry(-40, -40);
+        assertTemperatureSymmetry(CELSIUS.es(0), FAHRENHEIT.s(32));
+        assertTemperatureSymmetry(CELSIUS.es(10), FAHRENHEIT.s(50));
+        assertTemperatureSymmetry(CELSIUS.es(100), FAHRENHEIT.s(212));
+        assertTemperatureSymmetry(CELSIUS.es(-40), FAHRENHEIT.s(-40));
+        assertTemperatureSymmetry(FAHRENHEIT.s(325), GAS_MARK.s(3));
+        assertTemperatureSymmetry(CELSIUS.es(0), KELVIN.s(273.15));
+        assertTemperatureSymmetry(FAHRENHEIT.s(50), KELVIN.s(283.15));
+        assertTemperatureSymmetry(FAHRENHEIT.s(50), RANKINE.s(509.67));
     }
 
     @Test void temperatureArithmetic() {
@@ -67,10 +73,8 @@ public final class QuantityTest {
 //        CELSIUS.es(10).negate();
     }
 
-    private void assertTemperatureSymmetry(double celsius, double fahrenheit) {
-        var c = CELSIUS.es(celsius);
-        var f = FAHRENHEIT.s(fahrenheit);
-        assertEquals(c, f);
-        assertEquals(f, c);
+    private void assertTemperatureSymmetry(IntervalQuantity left, IntervalQuantity right) {
+        assertEquals(left, right);
+        assertEquals(right, left);
     }
 }

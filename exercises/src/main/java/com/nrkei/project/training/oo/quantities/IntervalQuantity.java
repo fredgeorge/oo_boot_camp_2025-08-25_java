@@ -8,6 +8,7 @@ package com.nrkei.project.training.oo.quantities;
 
 // Understands a specific measurement along a scale
 public class IntervalQuantity {
+    static double EPSILON = 1e-10;
     protected final double amount;
     protected final Unit unit;
 
@@ -22,7 +23,8 @@ public class IntervalQuantity {
     }
 
     private boolean equals(IntervalQuantity other) {
-        return this.isCompatible(other) && this.amount == convertedAmount(other);
+        return this.isCompatible(other) &&
+                Math.abs(this.amount - convertedAmount(other)) < EPSILON;
     }
 
     private boolean isCompatible(IntervalQuantity other) {

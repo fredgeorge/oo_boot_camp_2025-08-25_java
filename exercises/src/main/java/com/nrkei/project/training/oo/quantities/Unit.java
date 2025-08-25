@@ -8,6 +8,8 @@ package com.nrkei.project.training.oo.quantities;
 
 import java.util.Objects;
 
+import static com.nrkei.project.training.oo.quantities.IntervalQuantity.EPSILON;
+
 // Understands a specific metric
 @SuppressWarnings("StaticInitializerReferencesSubClass")
 public abstract class Unit {
@@ -30,6 +32,9 @@ public abstract class Unit {
 
     public static final IntervalUnit CELSIUS = new IntervalUnit();
     public static final IntervalUnit FAHRENHEIT = new IntervalUnit(5/9.0, 32, CELSIUS);
+    public static final IntervalUnit GAS_MARK = new IntervalUnit(125 / 9.0, -218.0 / 25, CELSIUS);
+    public static final IntervalUnit KELVIN = new IntervalUnit(1, 273.15, CELSIUS);
+    public static final IntervalUnit RANKINE = new IntervalUnit(5 / 9.0, 491.67, CELSIUS);
 
     private final Unit baseUnit;
     private final double baseUnitRatio;
@@ -54,7 +59,7 @@ public abstract class Unit {
     }
 
     int hashCode(double amount) {
-        return Objects.hash((amount - offset) * baseUnitRatio);
+        return Objects.hash(Math.round((amount - offset) * baseUnitRatio / EPSILON));
     }
 
     boolean isCompatible(Unit other) {
