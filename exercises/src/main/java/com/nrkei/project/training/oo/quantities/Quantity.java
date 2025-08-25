@@ -23,12 +23,16 @@ public final class Quantity {
         return this == obj || obj instanceof Quantity && this.equals((Quantity) obj);
     }
 
-    private boolean equals(Quantity quantity) {
-        return this.amount == quantity.amount && this.unit == quantity.unit;
+    private boolean equals(Quantity other) {
+        return this.amount == convertedAmount(other);
+    }
+
+    private double convertedAmount(Quantity other) {
+        return this.unit.convertedAmount(other.amount, other.unit);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(amount, unit);
+        return unit.hashCode(amount);
     }
 }
