@@ -11,6 +11,7 @@ import java.util.Objects;
 // Understands the likelihood of something specific occurring
 public final class Chance {
     private static final double CERTAIN_FRACTION = 1.0;
+    private static final double EPSILON = 1e-10;
     private final double fraction;
 
     public Chance(double likelihoodAsFraction) {
@@ -23,12 +24,12 @@ public final class Chance {
     }
 
     private boolean equals(Chance chance) {
-        return this.fraction == chance.fraction;
+        return Math.abs(this.fraction - chance.fraction) < EPSILON;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(fraction);
+        return Objects.hash(Math.round(fraction/EPSILON));
     }
 
     public Chance not() {
