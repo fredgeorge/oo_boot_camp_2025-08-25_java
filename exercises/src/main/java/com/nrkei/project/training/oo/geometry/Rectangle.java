@@ -12,11 +12,16 @@ public class Rectangle {
     private final double width;
 
     public Rectangle(double length, double width) {
+        assert length >0 && width > 0;
         this.length = length;
         this.width = width;
     }
 
     public double area() {
         return length * width;
+    }
+
+    public double perimeter() {
+        return 2 * (length + width);
     }
 }
