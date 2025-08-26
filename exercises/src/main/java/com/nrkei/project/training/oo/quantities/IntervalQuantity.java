@@ -6,8 +6,10 @@
 
 package com.nrkei.project.training.oo.quantities;
 
+import com.nrkei.project.training.oo.order.Orderable;
+
 // Understands a specific measurement along a scale
-public class IntervalQuantity {
+public class IntervalQuantity implements Orderable<IntervalQuantity> {
     static double EPSILON = 1e-10;
     protected final double amount;
     protected final Unit unit;
@@ -38,5 +40,10 @@ public class IntervalQuantity {
     @Override
     public int hashCode() {
         return unit.hashCode(amount);
+    }
+
+    @Override
+    public boolean isBetterThan(IntervalQuantity other) {
+        return this.amount > convertedAmount(other);
     }
 }
