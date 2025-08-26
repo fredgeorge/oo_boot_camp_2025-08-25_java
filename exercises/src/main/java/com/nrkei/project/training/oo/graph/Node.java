@@ -12,6 +12,7 @@ import java.util.List;
 // Understands its neighbors
 public final class Node {
     private static final int UNREACHABLE = -1;
+    private static final List<Node> NO_VISITED_NODES = new ArrayList<>();
     private final List<Node> neighbors = new ArrayList<>();
 
     public Node to(Node neighbor) {
@@ -20,11 +21,11 @@ public final class Node {
     }
 
     public boolean canReach(Node destination) {
-        return canReach(destination, noVisitedNodes());
+        return hopCount(destination, NO_VISITED_NODES) != UNREACHABLE;
     }
 
     public int hopCount(Node destination) {
-        var result = hopCount(destination, noVisitedNodes());
+        var result = hopCount(destination, NO_VISITED_NODES);
         if (result == UNREACHABLE) throw new IllegalArgumentException("Destination is unreachable");
         return result;
     }
@@ -32,24 +33,18 @@ public final class Node {
     private int hopCount(Node destination, List<Node> visitedNodes) {
         if (this == destination) return 0;
         if (visitedNodes.contains(this)) return UNREACHABLE;
-        visitedNodes.add(this);
         var champion = UNREACHABLE;
         for (Node n : neighbors) {
-            var challenger = n.hopCount(destination, visitedNodes);
+            var challenger = n.hopCount(destination, copyWithThis(visitedNodes));
             if (challenger == UNREACHABLE) continue;
             if (champion == UNREACHABLE || challenger + 1 < champion) champion = challenger + 1;
         }
         return champion;
     }
 
-    private boolean canReach(Node destination, List<Node> visitedNodes) {
-        if (this == destination) return true;
-        if (visitedNodes.contains(this)) return false;
-        visitedNodes.add(this);
-        return neighbors.stream().anyMatch(n -> n.canReach(destination, visitedNodes));
-    }
-
-    private List<Node> noVisitedNodes() {
-        return new ArrayList<>();
+    private List<Node> copyWithThis(List<Node> originals) {
+        List<Node> results = new ArrayList<>(originals);
+        results.add(this);
+        return results;
     }
 }
