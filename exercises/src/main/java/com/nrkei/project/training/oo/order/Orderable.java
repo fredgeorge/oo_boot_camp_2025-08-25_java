@@ -6,16 +6,16 @@
 
 package com.nrkei.project.training.oo.order;
 
+import java.util.Arrays;
+
 // Understands sequencing of elements
 public interface Orderable<T> {
     boolean isBetterThan(T other);
 
     static <S extends Orderable<S>> S best(S first, S... elements) {
-        if (elements.length == 0) return first;
-        var champion = first;
-        for (var challenger : elements) {
-            if (challenger.isBetterThan(champion)) champion = challenger;
-        }
-        return champion;
+        return Arrays.stream(elements).reduce(
+                first,
+                (champion, challenger) -> challenger.isBetterThan(champion) ? challenger : champion
+        );
     }
 }
