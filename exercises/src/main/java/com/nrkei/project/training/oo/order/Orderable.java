@@ -10,6 +10,7 @@ import java.util.Arrays;
 
 // Understands sequencing of elements
 public interface Orderable<T> {
+
     boolean isBetterThan(T other);
 
     @SafeVarargs
