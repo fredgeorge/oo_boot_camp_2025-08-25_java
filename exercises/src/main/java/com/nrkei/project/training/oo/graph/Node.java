@@ -26,10 +26,7 @@ public final class Node {
         if (this == destination) return true;
         if (visitedNodes.contains(this)) return false;
         visitedNodes.add(this);
-        for (var neighbor : neighbors) {
-            if (neighbor.canReach(destination, visitedNodes)) return true;
-        }
-        return false;
+        return neighbors.stream().anyMatch(n -> n.canReach(destination, visitedNodes));
     }
 
     private List<Node> noVisitedNodes() {
