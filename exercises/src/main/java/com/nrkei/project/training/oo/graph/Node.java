@@ -33,11 +33,13 @@ public final class Node {
         if (this == destination) return 0;
         if (visitedNodes.contains(this)) return UNREACHABLE;
         visitedNodes.add(this);
+        var champion = UNREACHABLE;
         for (Node n : neighbors) {
-            var neighborHopCount = n.hopCount(destination, visitedNodes);
-            if (neighborHopCount != UNREACHABLE) return neighborHopCount + 1;
+            var challenger = n.hopCount(destination, visitedNodes);
+            if (challenger == UNREACHABLE) continue;
+            if (champion == UNREACHABLE || challenger + 1 < champion) champion = challenger + 1;
         }
-        return UNREACHABLE;
+        return champion;
     }
 
     private boolean canReach(Node destination, List<Node> visitedNodes) {
