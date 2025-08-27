@@ -7,6 +7,7 @@
 package com.nrkei.project.training.oo.graph;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import static com.nrkei.project.training.oo.graph.Path.*;
@@ -38,12 +39,10 @@ public final class Node {
     Path path(Node destination, List<Node> visitedNodes) {
         if (this == destination) return new ActualPath();
         if (visitedNodes.contains(this)) return NO_PATH;
-        Path champion = NO_PATH;
-        for (Link link : links) {
-            var challenger = link.path(destination, copyWithThis(visitedNodes));
-            if (challenger.cost() < champion.cost()) champion = challenger;
-        }
-        return champion;
+        return links.stream()
+                .map(link -> link.path(destination, copyWithThis(visitedNodes)))
+                .min(Comparator.comparingDouble(Path::cost))
+                .orElse(NO_PATH);
     }
 
     private double cost(Node destination, Link.CostStrategy strategy) {
