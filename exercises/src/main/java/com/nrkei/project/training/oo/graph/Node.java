@@ -31,18 +31,18 @@ public final class Node {
 
     public Path path(Node destination) {
         var result = path(destination, NO_VISITED_NODES);
-        if (result == null) throw new IllegalArgumentException("Destination is unreachable");
+        if (result == NO_PATH) throw new IllegalArgumentException("Destination is unreachable");
         return result;
     }
 
     Path path(Node destination, List<Node> visitedNodes) {
         if (this == destination) return new ActualPath();
-        if (visitedNodes.contains(this)) return null;
-        Path champion = null;
+        if (visitedNodes.contains(this)) return NO_PATH;
+        Path champion = NO_PATH;
         for (Link link : links) {
             var challenger = link.path(destination, copyWithThis(visitedNodes));
-            if (challenger == null) continue;
-            if (champion == null || challenger.cost() < champion.cost()) champion = challenger;
+            if (challenger == NO_PATH) continue;
+            if (champion == NO_PATH || challenger.cost() < champion.cost()) champion = challenger;
         }
         return champion;
     }
