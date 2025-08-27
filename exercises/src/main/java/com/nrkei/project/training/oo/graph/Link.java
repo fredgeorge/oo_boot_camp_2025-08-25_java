@@ -10,9 +10,11 @@ import java.util.List;
 
 // Understands a connection from one Node to another
 public final class Link {
+    private final double amount;
     private final Node target;
 
-    public Link(Node target) {
+    public Link(double amount, Node target) {
+        this.amount = amount;
         this.target = target;
     }
 
