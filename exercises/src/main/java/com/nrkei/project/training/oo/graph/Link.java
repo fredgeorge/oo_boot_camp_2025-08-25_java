@@ -10,15 +10,19 @@ import java.util.List;
 
 // Understands a connection from one Node to another
 public final class Link {
-    private final double amount;
+    private final double cost;
     private final Node target;
 
     public Link(double amount, Node target) {
-        this.amount = amount;
+        this.cost = amount;
         this.target = target;
     }
 
     double hopCount(Node destination, List<Node> visitedNodes) {
         return target.hopCount(destination, visitedNodes) + 1;
+    }
+
+    double cost(Node destination, List<Node> visitedNodes) {
+        return target.cost(destination, visitedNodes) + cost;
     }
 }

@@ -25,6 +25,21 @@ public final class Node {
         return (int)result;
     }
 
+    public double cost(Node destination) {
+        var result = cost(destination, NO_VISITED_NODES);
+        if (result == UNREACHABLE) throw new IllegalArgumentException("Destination is unreachable");
+        return result;
+    }
+
+    double cost(Node destination, List<Node> visitedNodes) {
+        if (this == destination) return 0;
+        if (visitedNodes.contains(this)) return UNREACHABLE;
+        return links.stream()
+                .mapToDouble(link -> link.cost(destination, copyWithThis(visitedNodes)))
+                .min()
+                .orElse(UNREACHABLE);
+    }
+
     double hopCount(Node destination, List<Node> visitedNodes) {
         if (this == destination) return 0;
         if (visitedNodes.contains(this)) return UNREACHABLE;
