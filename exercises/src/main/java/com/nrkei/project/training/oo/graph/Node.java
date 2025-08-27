@@ -27,6 +27,24 @@ public final class Node {
         return cost(destination, Link.LEAST_COST);
     }
 
+    public Path path(Node destination) {
+        var result = path(destination, NO_VISITED_NODES);
+        if (result == null) throw new IllegalArgumentException("Destination is unreachable");
+        return result;
+    }
+
+    Path path(Node destination, List<Node> visitedNodes) {
+        if (this == destination) return new Path();
+        if (visitedNodes.contains(this)) return null;
+        Path champion = null;
+        for (Link link : links) {
+            var challenger = link.path(destination, copyWithThis(visitedNodes));
+            if (challenger == null) continue;
+            if (champion == null || challenger.cost() < champion.cost()) champion = challenger;
+        }
+        return champion;
+    }
+
     private double cost(Node destination, Link.CostStrategy strategy) {
         var result = cost(destination, NO_VISITED_NODES, strategy);
         if (result == UNREACHABLE) throw new IllegalArgumentException("Destination is unreachable");

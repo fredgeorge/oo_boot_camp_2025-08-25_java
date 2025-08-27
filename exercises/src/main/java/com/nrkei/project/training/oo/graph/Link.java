@@ -20,8 +20,18 @@ public final class Link {
         this.target = target;
     }
 
+    static double totalCost(List<Link> links) {
+        return links.stream().mapToDouble(l -> l.cost).sum();
+    }
+
     double cost(Node destination, List<Node> visitedNodes, Link.CostStrategy strategy) {
         return target.cost(destination, visitedNodes, strategy) + strategy.cost(cost);
+    }
+
+    Path path(Node destination, List<Node> visitedNodes) {
+        var result = target.path(destination, visitedNodes);
+        if (result != null) result.prepend(this);
+        return result;
     }
 
     interface CostStrategy {
