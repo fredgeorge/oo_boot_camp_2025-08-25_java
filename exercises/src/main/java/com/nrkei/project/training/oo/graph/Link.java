@@ -7,7 +7,6 @@
 package com.nrkei.project.training.oo.graph;
 
 import java.util.List;
-import java.util.function.ToDoubleFunction;
 import java.util.stream.Stream;
 
 // Understands a connection from one Node to another
@@ -22,10 +21,6 @@ public final class Link {
 
     static double totalCost(List<Link> links) {
         return links.stream().mapToDouble(l -> l.cost).sum();
-    }
-
-    Path path(Node destination, List<Node> visitedNodes, ToDoubleFunction<Path> strategy) {
-        return target.path(destination, visitedNodes, strategy).prepend(this);
     }
 
     Stream<Path> paths(Node destination, List<Node> visitedNodes) {

@@ -12,15 +12,13 @@ import java.util.List;
 import java.util.function.ToDoubleFunction;
 import java.util.stream.Stream;
 
-import static com.nrkei.project.training.oo.graph.Path.*;
-
 // Understands its neighbors
 public final class Node {
     private static final List<Node> NO_VISITED_NODES = new ArrayList<>();
     private final List<Link> links = new ArrayList<>();
 
     public boolean canReach(Node destination) {
-        return path(destination, NO_VISITED_NODES, Path::cost) != NO_PATH;
+        return !paths(destination).isEmpty();
     }
 
     public int hopCount(Node destination) {
@@ -40,25 +38,16 @@ public final class Node {
     }
 
     public Stream<Path> paths(Node destination, List<Node> visitedNodes) {
-        if (this == destination) return Stream.of(new ActualPath());
+        if (this == destination) return Stream.of(new Path());
         if (visitedNodes.contains(this)) return Stream.empty();
         return links.stream()
                 .flatMap(link -> link.paths(destination, copyWithThis(visitedNodes)));
     }
 
     private Path path(Node destination, ToDoubleFunction<Path> strategy) {
-        var result = path(destination, NO_VISITED_NODES, strategy);
-        if (result == NO_PATH) throw new IllegalArgumentException("Destination is unreachable");
-        return result;
-    }
-
-    Path path(Node destination, List<Node> visitedNodes, ToDoubleFunction<Path> strategy) {
-        if (this == destination) return new ActualPath();
-        if (visitedNodes.contains(this)) return NO_PATH;
-        return links.stream()
-                .map(link -> link.path(destination, copyWithThis(visitedNodes), strategy))
+        return paths(destination).stream()
                 .min(Comparator.comparingDouble(strategy))
-                .orElse(NO_PATH);
+                .orElseThrow(() -> new IllegalArgumentException("Destination is unreachable"));
     }
 
     private List<Node> copyWithThis(List<Node> originals) {
