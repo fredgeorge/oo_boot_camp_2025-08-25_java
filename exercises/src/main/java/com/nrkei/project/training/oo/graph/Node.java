@@ -9,6 +9,7 @@ package com.nrkei.project.training.oo.graph;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.ToDoubleFunction;
 
 import static com.nrkei.project.training.oo.graph.Path.*;
 
@@ -31,17 +32,17 @@ public final class Node {
     }
 
     public Path path(Node destination) {
-        var result = path(destination, NO_VISITED_NODES);
+        var result = path(destination, NO_VISITED_NODES, Path::cost);
         if (result == NO_PATH) throw new IllegalArgumentException("Destination is unreachable");
         return result;
     }
 
-    Path path(Node destination, List<Node> visitedNodes) {
+    Path path(Node destination, List<Node> visitedNodes, ToDoubleFunction<Path> strategy) {
         if (this == destination) return new ActualPath();
         if (visitedNodes.contains(this)) return NO_PATH;
         return links.stream()
-                .map(link -> link.path(destination, copyWithThis(visitedNodes)))
-                .min(Comparator.comparingDouble(Path::cost))
+                .map(link -> link.path(destination, copyWithThis(visitedNodes), strategy))
+                .min(Comparator.comparingDouble(strategy))
                 .orElse(NO_PATH);
     }
 
