@@ -9,6 +9,8 @@ package com.nrkei.project.training.oo.graph;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.nrkei.project.training.oo.graph.Path.*;
+
 // Understands its neighbors
 public final class Node {
     private static final double UNREACHABLE = Double.POSITIVE_INFINITY;
@@ -34,7 +36,7 @@ public final class Node {
     }
 
     Path path(Node destination, List<Node> visitedNodes) {
-        if (this == destination) return new Path();
+        if (this == destination) return new ActualPath();
         if (visitedNodes.contains(this)) return null;
         Path champion = null;
         for (Link link : links) {
