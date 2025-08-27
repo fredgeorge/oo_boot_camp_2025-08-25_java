@@ -11,7 +11,7 @@ import java.util.List;
 
 // Understands its neighbors
 public final class Node {
-    private static final int UNREACHABLE = -1;
+    private static final double UNREACHABLE = Double.POSITIVE_INFINITY;
     private static final List<Node> NO_VISITED_NODES = new ArrayList<>();
     private final List<Node> neighbors = new ArrayList<>();
 
@@ -27,10 +27,10 @@ public final class Node {
     public int hopCount(Node destination) {
         var result = hopCount(destination, NO_VISITED_NODES);
         if (result == UNREACHABLE) throw new IllegalArgumentException("Destination is unreachable");
-        return result;
+        return (int)result;
     }
 
-    private int hopCount(Node destination, List<Node> visitedNodes) {
+    private double hopCount(Node destination, List<Node> visitedNodes) {
         if (this == destination) return 0;
         if (visitedNodes.contains(this)) return UNREACHABLE;
         var champion = UNREACHABLE;
