@@ -13,7 +13,8 @@ import java.util.List;
 public abstract class Path {
     static final Path NO_PATH = new None();
 
-    void prepend(Link link) {
+    Path prepend(Link link) {
+        return this;
     }
 
     public abstract int hopCount();
@@ -23,8 +24,9 @@ public abstract class Path {
     static class ActualPath extends Path {
         private final List<Link> links = new ArrayList<>();
 
-        void prepend(Link link) {
+        Path prepend(Link link) {
             links.addFirst(link);
+            return this;
         }
 
         public int hopCount() {

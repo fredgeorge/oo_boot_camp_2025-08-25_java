@@ -41,8 +41,7 @@ public final class Node {
         Path champion = NO_PATH;
         for (Link link : links) {
             var challenger = link.path(destination, copyWithThis(visitedNodes));
-            if (challenger == NO_PATH) continue;
-            if (champion == NO_PATH || challenger.cost() < champion.cost()) champion = challenger;
+            if (challenger.cost() < champion.cost()) champion = challenger;
         }
         return champion;
     }
