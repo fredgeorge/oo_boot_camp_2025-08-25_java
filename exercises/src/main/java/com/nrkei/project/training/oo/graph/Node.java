@@ -16,11 +16,11 @@ public final class Node {
     private final List<Link> links = new ArrayList<>();
 
     public boolean canReach(Node destination) {
-        return hopCount(destination, NO_VISITED_NODES) != UNREACHABLE;
+        return cost(destination, NO_VISITED_NODES, Link.LEAST_COST) != UNREACHABLE;
     }
 
     public int hopCount(Node destination) {
-        var result = hopCount(destination, NO_VISITED_NODES);
+        var result = cost(destination, NO_VISITED_NODES, Link.FEWEST_HOPS);
         if (result == UNREACHABLE) throw new IllegalArgumentException("Destination is unreachable");
         return (int)result;
     }
@@ -36,15 +36,6 @@ public final class Node {
         if (visitedNodes.contains(this)) return UNREACHABLE;
         return links.stream()
                 .mapToDouble(link -> link.cost(destination, copyWithThis(visitedNodes), strategy))
-                .min()
-                .orElse(UNREACHABLE);
-    }
-
-    double hopCount(Node destination, List<Node> visitedNodes) {
-        if (this == destination) return 0;
-        if (visitedNodes.contains(this)) return UNREACHABLE;
-        return links.stream()
-                .mapToDouble(link -> link.hopCount(destination, copyWithThis(visitedNodes)))
                 .min()
                 .orElse(UNREACHABLE);
     }
