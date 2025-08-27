@@ -35,9 +35,8 @@ public final class Node {
         if (visitedNodes.contains(this)) return UNREACHABLE;
         var champion = UNREACHABLE;
         for (Node n : neighbors) {
-            var challenger = n.hopCount(destination, copyWithThis(visitedNodes));
-            if (challenger == UNREACHABLE) continue;
-            if (champion == UNREACHABLE || challenger + 1 < champion) champion = challenger + 1;
+            var challenger = n.hopCount(destination, copyWithThis(visitedNodes)) + 1;
+            if (challenger < champion) champion = challenger;
         }
         return champion;
     }
