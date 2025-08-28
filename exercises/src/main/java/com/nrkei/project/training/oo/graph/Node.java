@@ -37,7 +37,19 @@ public final class Node {
         return paths(destination, NO_VISITED_NODES).toList();
     }
 
-    public Stream<Path> paths(Node destination, List<Node> visitedNodes) {
+    public List<Path> paths() {
+        return paths(NO_VISITED_NODES).toList();
+    }
+
+    Stream<Path> paths(List<Node> visitedNodes) {
+        if (visitedNodes.contains(this)) return Stream.empty();
+        return Stream.concat(
+                Stream.of(new Path()),
+                links.stream()
+                        .flatMap(link -> link.paths(copyWithThis(visitedNodes))));
+    }
+
+    Stream<Path> paths(Node destination, List<Node> visitedNodes) {
         if (this == destination) return Stream.of(new Path());
         if (visitedNodes.contains(this)) return Stream.empty();
         return links.stream()
